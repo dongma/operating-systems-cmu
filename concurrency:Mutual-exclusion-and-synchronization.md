@@ -194,7 +194,7 @@ void main() {
 
 
 
-## 管程
+## 管程monitor
 
 管程是一个程序设计语言结构，它提供了一种原始的但功能强大且灵活的工具，但更易于控制。管程的概念在`[HOAR74]`中第一次定义，管程结构在很多程序设计语言中都得到了实现，包括并发`Pascal`、`Java`等。其主要特点如下：
 
@@ -205,6 +205,70 @@ void main() {
 3）在任何时候，只能有一个进程在管程中执行，调用管程的任何其它进程都会被阻塞，以等待管程可用。
 
 通过给进程强加规定，管程可以提供一种互斥机制：管程中的数据变量每次只能被一个进程访问到。因此，可以把一个共享数据结构放在管程中，从而提供对它的保护。如果管程中的数据代表某些资源，那么管程为访问这些资源提供了互斥机制。
+
+```c
+/* program producerconsumer */
+monitor bounderbuffer;
+char buffer[N]；										/* 分配N个数据项空间 */		
+int nextin, nextout;							 /* 缓冲区指针 */	
+int count;												 /* 缓冲区中数据项的个数 */
+cond notfull, notempty;            /* 为同步设置的条件变量 */
+void append(char x) {
+  if (count == N) cwait(notfull);				/* 缓冲区满，防止溢出 */
+  buffer[nextin] = x;
+  nextin = (nextin + 1) % N;
+  count++;
+  /* 缓冲区中数据项个数增一 */
+  csignal(nonempty);										/* 释放任何一个等待的进程 */
+}
+void take (char x) {
+  if (count == 0) cwait(notempty);  /* 缓冲区空，防止下溢 */
+  x = buffer[nextout];
+  nextout = (nextout + 1) % N;
+  count --;                         /* 缓冲区中数据项个数减一 */
+  csignal(notfull);                 /* 释放任何一个等待的进程 */
+}
+{ 																			/* 管程体 */
+  nextin = 0; nextout = 0; count = 0;   /* 缓冲区初始化为空 */
+}
+```
+
+使用管程解决有界缓冲区的生产者、消费者问题的方法，如果没有进程在条件`x`上等待，`csignal（x）`的执行将不会产生任何效果。
+
+```c
+void producer() {
+  char x;
+  while(true) {
+    produce(x);
+    append(x);
+  }
+}
+void consumer() {
+  char x;
+  while(true) {
+    take(x);
+    consume(x);
+  }
+}
+void main() {
+  parbegin(producer, consumer);
+}
+```
+
+
+
+## 消息传递
+
+进程交互时，必须满则两个基本要求：同步和通信。为实施互斥，进程间需要同步；为了合作，进程间需要交换信息，提供这些功能的一种方法是消息传递。消息传递还有一个优点，即它可在分布式系统、共享内存的多处理器系统和单处理器系统实现。
+
+消息传递系统可以有多种形式，本节将给出关于这类系统典型特征的一般介绍。消息传递的实际功能以一对原语的形式系统：
+
+```
+send(destination, message)
+receive(source, message)
+```
+
+这是进程间进行消息传递所需要的最小操作集。一个进程以消息（`message`）的形式给另一个指定的目标（`destination`）进程发送信息；进程通过执行`receive`原语接收消息，`receive`原语中指明发送消息的源进程（`source`）和消息。
 
 
 
