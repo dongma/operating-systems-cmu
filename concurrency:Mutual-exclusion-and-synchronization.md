@@ -228,7 +228,7 @@ void take (char x) {
   count --;       /* 缓冲区中数据项个数减一 */
   csignal(notfull);   /* 释放任何一个等待的进程 */
 }
-{ 																			/* 管程体 */
+{ 		/* 管程体 */
   nextin = 0; nextout = 0; count = 0;   /* 缓冲区初始化为空 */
 }
 ```

@@ -4,9 +4,10 @@
 
 主要探讨了操作系统中关于`memory`管理、淘汰算法及虚拟内存机制、线程和进程内容（并发控制）：
 
-1. [进程的描述和控制](./threads-smp-microkernels.md))部分
+1. [进程的描述和控制](./threads-smp-microkernels.md)部分
 2. [线程、对称多处理(`SMP`)和微内核](./threads-smp-microkernels.md)
 3. [并发性：互斥和同步](./concurrency:Mutual-exclusion-and-synchronization.md)
 4. [内存管理](./memory-management.md)内容
 5. [虚拟内存设计](./virtual-memory.md)
+6. [多处理器和实时调度](./multiprocessor-and-realtime-scheduling.md)
 
