@@ -209,24 +209,24 @@ void main() {
 ```c
 /* program producerconsumer */
 monitor bounderbuffer;
-char buffer[N]；										/* 分配N个数据项空间 */		
-int nextin, nextout;							 /* 缓冲区指针 */	
-int count;												 /* 缓冲区中数据项的个数 */
-cond notfull, notempty;            /* 为同步设置的条件变量 */
+char buffer[N]；		/* 分配N个数据项空间 */		
+int nextin, nextout;	/* 缓冲区指针 */	
+int count;			/* 缓冲区中数据项的个数 */
+cond notfull, notempty;   /* 为同步设置的条件变量 */
 void append(char x) {
-  if (count == N) cwait(notfull);				/* 缓冲区满，防止溢出 */
+  if (count == N) cwait(notfull);	/* 缓冲区满，防止溢出 */
   buffer[nextin] = x;
   nextin = (nextin + 1) % N;
   count++;
   /* 缓冲区中数据项个数增一 */
-  csignal(nonempty);										/* 释放任何一个等待的进程 */
+  csignal(nonempty);		/* 释放任何一个等待的进程 */
 }
 void take (char x) {
   if (count == 0) cwait(notempty);  /* 缓冲区空，防止下溢 */
   x = buffer[nextout];
   nextout = (nextout + 1) % N;
-  count --;                         /* 缓冲区中数据项个数减一 */
-  csignal(notfull);                 /* 释放任何一个等待的进程 */
+  count --;       /* 缓冲区中数据项个数减一 */
+  csignal(notfull);   /* 释放任何一个等待的进程 */
 }
 { 																			/* 管程体 */
   nextin = 0; nextout = 0; count = 0;   /* 缓冲区初始化为空 */
