@@ -10,4 +10,5 @@
 4. [内存管理](./memory-management.md)内容
 5. [虚拟内存设计](./virtual-memory.md)
 6. [多处理器和实时调度](./multiprocessor-and-realtime-scheduling.md)
+7. [并发：死锁和饥饿](./concurrency:deadlock-and-starvation.md)
 
