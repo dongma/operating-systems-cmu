@@ -63,7 +63,7 @@ S5() { ...; P(c); P(d); ..; }
 
 基本分页存储管理方式（含二级分页）：
 
-<img src="./reference-media/OS页式数据管理.jpg" alt="process-status-transition" width="630px" />
+<img src="./reference-media/OS页式数据管理.jpg" alt="process-status-transition" width="650px" />
 
 固定分区会产生内部碎片，动态分区会产生外部碎片，都会产生内存碎片。分页的思想，将主存空间划分大小相等且固定的块，块相对较小，作为主存的基本单位。引入二级分页，主要是为了避免页表项太多，占用过多内存空间。
 
@@ -77,7 +77,7 @@ S5() { ...; P(c); P(d); ..; }
 
 基本分段存储管理方式及段页式：
 
-<img src="./reference-media/OS段式内存管理.jpg" alt="process-status-transition" width="630px" />
+<img src="./reference-media/OS段式内存管理.jpg" alt="process-status-transition" width="650px" />
 
 分页管理方式是从计算机的角度考虑设计，目的是提高内存利用率，分段管理方式的提出则考虑了用户和程序员，以满足编程、信息共享保护。分段内存管理的基本概念：
 
